@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import routes from './routes/routes'
 import { GobalStyle } from './globalSttyles';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from './components/NavBar'
 
 function App() {

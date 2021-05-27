@@ -4,6 +4,7 @@ import MenuDesserts from './client/menu-detail/menudesserts';
 import MenuPizzas from './client/menu-detail/menupizzas';
 import Menupage from './client/menupage';
 import Orderpage from './client/orderpage';
+import RegisterPage from './client/registerpage';
 import SignInPage from './client/signinpage';
 const routes = [
     {
@@ -26,6 +27,11 @@ const routes = [
         path: '/signin',
         exact: false,
         main: () => <SignInPage/>
+    },
+    {
+        path: '/signup',
+        exact: false,
+        main: () => <RegisterPage/>
     },
     // {
     //     path : '/notfound',

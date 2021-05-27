@@ -1,6 +1,5 @@
-import React from 'react'
 import styled from 'styled-components'
-import bgimg from '../../images/product-2.jpg' 
+import { NavLink as Link } from 'react-router-dom'
 export const Form= styled.form`
     font-family:'Kanit', sans-serif;
     background-color: #000;
@@ -25,15 +24,18 @@ export const FormInput= styled.input`
 export const FormButton= styled.button`
     background-color: #e31837;
     color: white;
-    padding: 14px 20px;
-    margin: 8px 15px;
+    width: 100%;
+    padding: 15px;
+    margin: 10px 2px;
     border: none;
     cursor: pointer;
-    width: 45%;
     font-size: 1em;
     .btn-txt-login{
         
         font-style: normal;
+    }
+    .sign-up-btn-link{
+        display: block;
     }
     &:hover{
         background: #ffc500;
@@ -64,4 +66,17 @@ export const FormImg= styled.img`
 export const FormText= styled.label`
     color: #fff;
     font-size: 1.5em;
+`
+export const FormLink = styled(Link)`
+    color: white;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    margin: 0 5em;
+    text-decoration: none;
+    cursor: pointer;
+    .selected{
+        font-weight: bold;
+        color: tomato
+    }
 `
