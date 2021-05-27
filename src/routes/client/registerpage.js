@@ -13,7 +13,7 @@ const RegisterPage = () => {
     async function signUp(){
         let item={userName,password,name,email,address,phone,role};
         console.log(item);
-        let result= await fetch("http://localhost:8000/api/register",{
+        let result= await fetch("https://pizza-toryo.herokuapp.com/api/user",{
             method: 'POST',
             body:JSON.stringify(item),
             headers:{
