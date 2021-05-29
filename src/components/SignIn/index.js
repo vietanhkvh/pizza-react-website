@@ -1,70 +1,99 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react'
 import { connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { Form, FormContainer, FormText, FormInput, FormButton, FormSpan, FormImg, FormLink } from './SignInElements'
-import { login } from '../../reducer/AccountReducer'
+import { setLoginSuccess } from '../../actions/LoginAction'
 import NavBarAdmin from '../NavBarAdmin/navbarAdmin'
-class SignIn extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            userName: '',
-            password: ''
+import axios from 'axios'
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+const SignIn = props => {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [users, setUsers] = useState([]);
+
+    useEffect(async()=>{
+        const result= await axios(`https://pizza-toryo.herokuapp.com/api/user`)
+        setUsers(result.data.data)
+    })
+    const history= useHistory();
+    const handleLogin = (e) => {
+        var user = { username: username, password: password };
+        props.setLoginSucces(users, user);
+        console.log(props.account.isLoginSuccess);
+        if(props.account.isLoginSuccess===true){
+            history.replace('/');
+            localStorage.setItem("accessToken",props.account.isLoginSuccess)
+            createNotification('success')
+            alert("Login success!")
+        }
+        else {
+            createNotification('error')
+            alert("Incorect username or password!")
+            localStorage.setItem("accessToken",false)
+            e.preventDefault();
+
+        }
+    }
+    const createNotification = (type) => {
+        return () => {
+          switch (type) {
+            case 'info':
+              NotificationManager.info('Info message');
+              break;
+            case 'success':
+              NotificationManager.success('Success message', 'Title here');
+              break;
+            case 'warning':
+              NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+              break;
+            case 'error':
+              NotificationManager.error('Error message', 'Click me!', 5000, () => {
+                alert('callback');
+              });
+              break;
+          }
         };
-    }
-    handleChange = e => {
-        const { name, value } = e.target;
-        this.setState({ [name]: value })
-    }
-    onSubmit = e => {
-        e.preventDefault();
-        let { userName, password } = this.state;
-        console.log(userName + " " + password)
-        this.props.login(userName, password);
-    }
-    render() {
-        let { userName, password } = this.state;
-        let { isLoginPending, isLoginSuccess, loginError } = this.props;
-        return (
-            <>
-                <Form onSubmit={this.onSubmit}>
-                    <FormContainer>
-                        <FormText>Username</FormText>
-                        <FormInput name="userName" type="text" placeholder="Enter Username" required onChange={this.handleChange} />
-                        <div>{userName}</div>
-                        <FormText>Password</FormText>
-                        <FormInput name="password" type="password" placeholder="Enter Password" required onChange={this.handleChange} />
-                        <div>{password}</div>
-                        <FormButton type="submit">
-                            <FormText className="btn-txt-login">Sign in</FormText>
-                        </FormButton>
-                        <FormButton >
-                            <FormLink to="/signup" className="sign-up-btn-link">
-                                <FormText className="btn-txt-regis">
-                                    Sign up
+      };
+    return (
+        <>
+        <NotificationContainer/>
+            <Form onSubmit={e=>handleLogin(e)}>
+                <FormContainer>
+                    <FormText>Username</FormText>
+                    <FormInput name="username" type="text" placeholder="Enter username" required onChange={e => setUsername(e.target.value)} />
+                    <div>{username}</div>
+                    <FormText>Password</FormText>
+                    <FormInput name="password" type="password" placeholder="Enter password" required onChange={e => setPassword(e.target.value)} />
+                    <div>{password}</div>
+                    <FormButton type="submit">
+                        <FormText className="btn-txt-login">Sign in</FormText>
+                    </FormButton>
+                    <FormButton >
+                        <FormLink to="/signup" className="sign-up-btn-link">
+                            <FormText className="btn-txt-regis">
+                                Sign up
                                 </FormText>
-                            </FormLink>
-                        </FormButton>
-                    </FormContainer>
-                    {isLoginPending == true ? <div>Please wait</div> : <div>False</div>}
-                    {isLoginSuccess == true ? <div>Welcome back!</div> : <div>Not success</div>}
-                    {loginError == null ? <div>No message</div> : <div>{loginError.message}</div>}
-                </Form>
-                <NavBarAdmin />
-            </>
-        )
-    }
+                        </FormLink>
+                    </FormButton>
+                </FormContainer>
+                {props.account.isLoginPending == true ? <div>Please wait</div> : <div>False</div>}
+                {props.account.isLoginSuccess == true ? <div>Welcome back!</div> : <div>Not success</div>}
+                {props.account.loginError == null ? <div>No message</div> : <div>{props.loginError}</div>}
+            </Form>
+            <NavBarAdmin />
+            
+        </>
+    )
 }
 
 const mapStateToProps = (state) => {
     return {
-        isLoginPending: state.accounts.isLoginPending,
-        isLoginSuccess: state.accounts.isLoginSuccess,
-        loginError: state.accounts.loginError
+        account: state.accounts
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        login: (userName, password) => dispatch(login(userName, password))
+        setLoginSucces: (users, user) => dispatch(setLoginSuccess(users, user))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn)

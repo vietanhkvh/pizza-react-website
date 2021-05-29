@@ -9,12 +9,11 @@ export const setLoginPending=(isLoginPending)=>{
         isLoginPending
     }
 }
-export const setLoginSuccess=(isLoginSuccess,userName,password)=>{
+export const setLoginSuccess=(users,user)=>{
     return{
         type: LOGIN_SUCCES,
-        isLoginSuccess,
-        userName,
-        password,
+        users,
+        user
     }
 }
 export const setLoginError=(loginError)=>{

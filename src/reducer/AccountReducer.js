@@ -1,5 +1,5 @@
 import {Promise} from 'es6-promise'
-import {LOGIN_PENDING,LOGIN_SUCCES,LOGIN_ERROR,LOGIN_ADMIN,setLoginPending,setLoginSuccess,setLoginError,setIsAdmin} from '../actions/LoginAction'
+import {LOGIN_PENDING,LOGIN_SUCCES,LOGIN_ERROR,LOGIN_ADMIN,setLoginPending,sendLoginSuccess,setLoginError,setIsAdmin} from '../actions/LoginAction'
 const initAcountStates={
     isLoginPending:false,
     isLoginSuccess: false,
@@ -7,56 +7,36 @@ const initAcountStates={
     isAdmin:false,
     userName:'',
     password:'',
-    fullName:'',
-    account:{}
+    name:'',
 }
-const _accounts=[
-    {
-        key:1,
-        id:'1',
-        userName:"admin",
-        password:"123",
-        numberPhone:"1234567890",
-        fullName:"Admin",
-        role:"A",
-    },
-    {
-        key:2,
-        id:'2',
-        userName:"customer",
-        password:"123",
-        numberPhone:"1234567890",
-        fullName:"Customer",
-        role:"C",
-    }]
-export const login=(userName,password)=>{
-    return dispatch=>{
-        dispatch(setLoginPending(false));
-        dispatch(setLoginSuccess(false,userName,password));
-        dispatch(setLoginError(null));
+// export const login=(username,password)=>{
+//     return dispatch=>{
+//         dispatch(setLoginPending(false));
+//         dispatch(setLoginSuccess(false,username,password));
+//         dispatch(setLoginError(null));
 
-        sendLoginRequest(userName, password)
-        .then(success=>{
-            dispatch(setLoginPending(false));
-            dispatch(setLoginSuccess(true,userName,password));
-        })
-        .catch(err=>{
-            dispatch(setLoginPending(false));
-            dispatch(setLoginError(err));
-        })
-    }
-}
-const sendLoginRequest=(userName, password)=>{
-    return new Promise((resolve, reject)=>{
-        let check= _accounts.some(account=>account.userName===userName && account.password===password)
-        if(check){
-            return resolve(true)
-        }
-        else{
-            return reject(new Error('Invalid user name or password'))
-        }
-    })
-}
+//         sendLoginRequest(username, password)
+//         .then(success=>{
+//             dispatch(setLoginPending(false));
+//             dispatch(setLoginSuccess(true,username,password));
+//         })
+//         .catch(err=>{
+//             dispatch(setLoginPending(false));
+//             dispatch(setLoginError(err));
+//         })
+//     }
+// }
+// const sendLoginRequest=(userName, password)=>{
+//     return new Promise((resolve, reject)=>{
+//         let check= _accounts.some(account=>account.userName===userName && account.password===password)
+//         if(check){
+//             return resolve(true)
+//         }
+//         else{
+//             return reject(new Error('Invalid user name or password'))
+//         }
+//     })
+// }
 const AccountReducer=(state=initAcountStates, action)=>{
     switch(action.type){
         case LOGIN_PENDING:
@@ -65,21 +45,27 @@ const AccountReducer=(state=initAcountStates, action)=>{
                 isLoginPending:action.isLoginPending
             }
         case LOGIN_SUCCES:
-            var userName,password,account;
-            if(action.isLoginSuccess==true) {
-                userName = action.userName;
-                password = action.password;
-                account= _accounts.find(account=>account.userName===userName && account.password===password);
-                console.log(account.fullName);
-                return{
-                    ...state,
-                    isLoginSuccess: action.isLoginSuccess,
-                    fullName: account.fullName
+            let user,users,account={},isAdmin=false;
+            user = action.user;
+            users = action.users;
+            console.log(action.user);
+            console.log(action.users);
+
+            account=users.find(account=>account.username===user.username && account.password===user.password);
+            console.log("reducer "+state.isLoginSuccess);
+            if(typeof account!=='undefined'){
+                if(account.role==="admin") {
+                    isAdmin=true
+                    console.log(account.role);
                 }
-            };
+                return{
+                    isLoginSuccess: true,
+                    name: account.username,
+                    isAdmin: isAdmin
+                }
+            }
             return{
-                ...state,
-                isLoginSuccess: action.isLoginSuccess,
+                ...state
             }
         case LOGIN_ERROR:
             return{

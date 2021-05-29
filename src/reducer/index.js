@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
 import AccountReducer from './AccountReducer'
-import {ADD_CART, DELETE_CART, UPDATE_CART, INCREASE_QUANTITY, DECREASE_QUANTITY, GET_NUMBER_CART, GET_ALL_PRODUCT} from '../actions'
+import {ADD_CART, DELETE_CART, INCREASE_QUANTITY, DECREASE_QUANTITY, GET_NUMBER_CART, GET_ALL_PRODUCT} from '../actions'
 
 import product1 from '../images/product-1.jpg'
 import product2 from '../images/product-2.jpg'
@@ -85,11 +85,11 @@ const cartReducer=(state=initProductCart, action)=>{
                 ...state,
             }
         case ADD_CART:
-            if(state.numberCart==0){
+            if(state.numberCart===0){
                 let cart={
                     id:action.payload.id,
                     quantity: 1,
-                    img:action.payload.img,
+                    image:action.payload.image,
                     name:action.payload.name,
                     price:action.payload.price
                 }
@@ -98,7 +98,7 @@ const cartReducer=(state=initProductCart, action)=>{
             else{
                 let check=false;
                 state.Carts.map((item,key)=>{
-                    if(item.id==action.payload.id){
+                    if(item.id===action.payload.id){
                         state.Carts[key].quantity++;
                         check=true;
                     }
@@ -107,7 +107,7 @@ const cartReducer=(state=initProductCart, action)=>{
                     let _cart={
                         id:action.payload.id,
                         quantity: 1,
-                        img:action.payload.img,
+                        image:action.payload.image,
                         name:action.payload.name,
                         price:action.payload.price
                     }
@@ -153,7 +153,7 @@ const cartReducer=(state=initProductCart, action)=>{
                 ...state,
                 numberCart:state.numberCart - _quantity,
                 Carts: state.Carts.filter(item=>{
-                    return item.id!=state.Carts[action.payload].id
+                    return item.id!==state.Carts[action.payload].id
                 })
             }
         default :
