@@ -1,17 +1,16 @@
-import React, { useState } from 'react'
-import {connect} from 'react-redux'
-import { Bars, Nav, NavIcon, NavLink, Account, Order, Logo, NavMenuList, NavMenuListItem, NavLinkList } from './NavBarElenment'
+import React from 'react'
+import { connect } from 'react-redux'
+import { Bars, Nav, Account, Order, Logo, NavMenuList, NavMenuListItem, NavLinkList, Management } from './NavBarElenment'
 const NavBar = (props) => {
-    
     return (
         <>
             {/* <Nav> */}
-                {/* <NavLink to="/" className={`logo`}>
+            {/* <NavLink to="/" className={`logo`}>
                     <Logo />
                     <p className="logo-text">Pizza Delicious</p>
                 </NavLink> */}
 
-                {/* <NavLink to='/menu/pizzas'>
+            {/* <NavLink to='/menu/pizzas'>
                     <NavIcon >
                         <p className={`menu-text`}>Menu</p>
                         <Bars />
@@ -33,26 +32,44 @@ const NavBar = (props) => {
                     </NavIcon>
                 </NavLink> */}
             {/* </Nav> */}
+            <Nav>
                 <NavMenuList>
-                    <Nav>
-                        <NavMenuListItem><NavLinkList className='nav-logo' to=''><Logo/>PizzaDelicious</NavLinkList></NavMenuListItem>
-                        <NavMenuListItem><NavLinkList className='nav-menu' to='/menu/pizzas'><Bars/>Menu</NavLinkList></NavMenuListItem>
-                        <NavMenuListItem><NavLinkList to='/order-cart'><Order/>Order</NavLinkList></NavMenuListItem>
-                        <NavMenuListItem>
-                             {props.account.isLoginSuccess==true ?
-                                (<NavLinkList to='/user'><Account/>
-                                    {props.account.fullName}
-                                </NavLinkList>)
-                                :(<NavLinkList to='/signin'><Account/>Sign In</NavLinkList>)}    
-                        </NavMenuListItem>
-                    </Nav>
+                    <NavMenuListItem><NavLinkList className='nav-logo' to='' style={{ textDecoration: "none" }}><Logo />PizzaDelicious</NavLinkList></NavMenuListItem>
+                    <NavMenuListItem><NavLinkList className='nav-menu' to='/menu/pizzas' style={{ textDecoration: "none" }} activeStyle={{ fontWeight: "bold", color: "red" }}><Bars />Menu</NavLinkList></NavMenuListItem>
+                    <NavMenuListItem><NavLinkList to='/order-cart' style={{ textDecoration: "none" }} activeStyle={{ fontWeight: "bold", color: "red" }}><Order />Order</NavLinkList></NavMenuListItem>
+                    {props.account.isLoginSuccess == true ?
+                        (<>
+                            <NavMenuListItem>
+                                {props.account.isAdmin == true ?
+                                    <NavLinkList to='/manage' style={{ textDecoration: "none" }}><Management />
+                                        Manage
+                                    </NavLinkList>
+                                    : null}
+                            </NavMenuListItem>
+                            <NavMenuListItem>
+                                <NavLinkList to='/user' style={{ textDecoration: "none" }}><Account />
+                                    {props.account.name}
+                                </NavLinkList>
+                            </NavMenuListItem>
+                        </>)
+                        : (
+                            <>
+                            <NavMenuListItem>
+                                <NavLinkList to='/signin' style={{ textDecoration: "none" }} activeStyle={{ fontWeight: "bold", color: "red" }}>
+                                    <Account />Sign In
+                                </NavLinkList>
+                            </NavMenuListItem>
+                            </>
+                        )
+                    }
                 </NavMenuList>
+            </Nav>
         </>
     )
 }
-const mapStateToProps=state=>{
-    return{
-        account:state.accounts
+const mapStateToProps = state => {
+    return {
+        account: state.accounts
     }
 }
-export default connect(mapStateToProps,null)(NavBar)
+export default connect(mapStateToProps, null)(NavBar)

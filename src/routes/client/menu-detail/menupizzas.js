@@ -1,12 +1,24 @@
+import axios from 'axios';
 import React from 'react'
 import Products from '../../../components/Products';
-import { productsData } from '../../../components/Products/data';
-const MenuPizzas = () => {
-    return (
-        <>
-        <Products heading="Choose your favorite" data={productsData} />
-        </>
-    )
+
+class MenuPizzas extends React.Component {
+    state = {
+        products: []
+    }
+    componentDidMount() {
+        axios.get(`https://pizza-toryo.herokuapp.com/api/product/type/1`)
+            .then(res => {
+                const products = res.data.data;
+                this.setState({ products });
+            })
+            .catch(error => console.log(error));
+    }
+    render() {
+        return (
+            <Products heading="Choose your favorite" data={this.state.products} />
+        )
+    }
 }
 
 export default MenuPizzas

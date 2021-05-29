@@ -1,11 +1,10 @@
-import React, { Children } from 'react';
+import React from 'react';
 import Mainpage from './client/mainpage';
-import MenuDesserts from './client/menu-detail/menudesserts';
-import MenuPizzas from './client/menu-detail/menupizzas';
 import Menupage from './client/menupage';
 import Orderpage from './client/orderpage';
 import RegisterPage from './client/registerpage';
 import SignInPage from './client/signinpage';
+import CheckOut from './client/checkout'
 const routes = [
     {
         path: '/',
@@ -32,6 +31,11 @@ const routes = [
         path: '/signup',
         exact: false,
         main: () => <RegisterPage/>
+    },
+    {
+        path: '/product-finish',
+        exact: false,
+        main: () => <CheckOut/>
     },
     // {
     //     path : '/notfound',

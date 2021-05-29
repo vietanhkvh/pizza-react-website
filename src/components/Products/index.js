@@ -16,24 +16,42 @@ import {
 const Products = (props) => {
 
     return (
+        // <ProductsContainer>
+        //     <ProductHeading>{props.heading}</ProductHeading>
+        //     <ProductWrapper>
+        //         {props.data.map((product, index) => {
+        //             return (
+        //                 <ProductCard key={index}>
+        //                     <ProductImg src={product.img} alt={product.alt} />
+        //                     <ProductInfo>
+        //                         <ProductTitle>{product.name}</ProductTitle>
+        //                         <ProductDesc>{product.desc}</ProductDesc>
+        //                         <ProductPrice>{product.price}</ProductPrice>
+        //                         <ProductButton onClick={() => props.AddToCart(product)}>{product.button}</ProductButton>
+        //                     </ProductInfo>
+        //                 </ProductCard>
+        //             )
+        //         })}
+        //     </ProductWrapper>
+        // </ProductsContainer>
+
         <ProductsContainer>
-            <ProductHeading>{props.heading}</ProductHeading>
-            <ProductWrapper>
-                {props.data.map((product, index) => {
-                    return (
-                        <ProductCard key={index}>
-                            <ProductImg src={product.img} alt={product.alt} />
-                            <ProductInfo>
-                                <ProductTitle>{product.name}</ProductTitle>
-                                <ProductDesc>{product.desc}</ProductDesc>
-                                <ProductPrice>{product.price}</ProductPrice>
-                                <ProductButton onClick={() => props.AddToCart(product)}>{product.button}</ProductButton>
-                            </ProductInfo>
-                        </ProductCard>
-                    )
-                })}
-            </ProductWrapper>
-        </ProductsContainer>
+        <ProductHeading>{props.heading}</ProductHeading>
+        <ProductWrapper>
+            {props.data.map((product, index) => {
+                return (
+                    <ProductCard key={index}>
+                        <ProductImg src={product.image}/>
+                        <ProductInfo>
+                            <ProductTitle>{product.name}</ProductTitle>
+                            <ProductPrice>{product.price}$</ProductPrice>
+                            <ProductButton onClick={() => props.AddToCart(product)}>Add to cart</ProductButton>
+                        </ProductInfo>
+                    </ProductCard>
+                )
+            })}
+        </ProductWrapper>
+    </ProductsContainer>
     )
 }
 // const mapStateToProps = state => {
@@ -41,6 +59,7 @@ const Products = (props) => {
 //         _products: state._todoProduct,
 //     };
 // }
+
 
 function mapDispatchToProps(dispatch) {
     return {

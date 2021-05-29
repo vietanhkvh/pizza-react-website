@@ -1,15 +1,18 @@
 import styled from 'styled-components'
 import { NavLink as Link } from 'react-router-dom'
-import { FaStream, FaUserCircle, FaShoppingBasket, FaDelicious } from 'react-icons/fa'
+import { FaStream, FaUserCircle, FaShoppingBasket, FaDelicious, FaTools} from 'react-icons/fa'
 export const Nav = styled.nav`
     background: transparent;
     background-color: black;
     position: sticky;
     top: 0;
-    height: 80px;
+    /* height: 80px; */
     display: flex;
     justify-content: center;
     font-weight: 700;
+    .a{
+        text-decoration: none;
+    }
 `
 export const NavLink = styled(Link)`
     color: #000;
@@ -72,8 +75,7 @@ export const NavLinkList = styled(Link)`
     font-size: 1rem;
     display: flex;
     align-items: center;
-    margin: 0 5em;
-    text-decoration: none;
+    margin: 0 3em;
     cursor: pointer;
     .selected{
         font-weight: bold;
@@ -119,6 +121,10 @@ export const Order = styled(FaShoppingBasket)`
 `
 
 export const Bars = styled(FaStream)`
+    font-size: 2rem;
+    /* transform: translate(-1160%,-100%) */
+`
+export const Management = styled(FaTools)`
     font-size: 2rem;
     /* transform: translate(-1160%,-100%) */
 `
