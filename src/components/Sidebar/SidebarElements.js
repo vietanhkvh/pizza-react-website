@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Link,Route } from 'react-router-dom'
 import { FaTimes } from 'react-icons/fa'
-
+// background: #ffc500;
 export const SidebarContainer = styled.aside`
     position: fixed;
     z-index: 999;
@@ -12,7 +12,6 @@ export const SidebarContainer = styled.aside`
     align-items: center;
     top:0;
     transition: 0.3s ease-in-out;
-    right: ${({ isOpen }) => (isOpen ? '0' : '-1000px')};
 
     @media screen and (max-width:400px){
         width:100%;

@@ -43,7 +43,7 @@ const RegisterPage = () => {
             // }).catch(err => console.log(err))
         result= await result.json;
         console.warn("result", result);
-        localStorage.setItem("user-info", JSON.stringify(result.json));
+        // localStorage.setItem("user-info", JSON.stringify(result.json));
         history.push('/');
 
     }

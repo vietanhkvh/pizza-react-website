@@ -9,7 +9,8 @@ import NavBar from './components/NavBar'
 function App() {
   const showContentMenu = (routes) => {
     var result = null;
-
+    localStorage.setItem("accessToken",false);
+    localStorage.setItem("total-cart-amount",0);
     if (routes.length > 0) {
       result = routes.map((route, index) => {
         return (

@@ -5,6 +5,10 @@ import Orderpage from './client/orderpage';
 import RegisterPage from './client/registerpage';
 import SignInPage from './client/signinpage';
 import CheckOut from './client/checkout'
+import UserPage from './client/userpage'
+import ManagePage from './manager/managepage'
+import Profile from '../components/ProfileUser'
+import History from '../components/HistoryOrder'
 const routes = [
     {
         path: '/',
@@ -37,6 +41,26 @@ const routes = [
         exact: false,
         main: () => <CheckOut/>
     },
+    {
+        path: '/user',
+        exact: false,
+        main: () => <UserPage/>
+    },
+    {
+        path: '/manage',
+        exact: false,
+        main: () => <ManagePage/>
+    },
+    // {
+    //     path: '/profile',
+    //     exact: false,
+    //     main: () => <Profile/>
+    // },
+    // {
+    //     path: '/history',
+    //     exact: false,
+    //     main: () => <History/>
+    // },
     // {
     //     path : '/notfound',
     //     exact : false,

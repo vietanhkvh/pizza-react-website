@@ -75,6 +75,7 @@ const initProductCart={
 }
 
 const cartReducer=(state=initProductCart, action)=>{
+    var number;
     switch(action.type){
         case GET_ALL_PRODUCT:
             return{
@@ -114,15 +115,18 @@ const cartReducer=(state=initProductCart, action)=>{
                     state.Carts.push(_cart)
                 }
             }
+            number= state.numberCart+1;
+            localStorage.setItem("total-cart-amount",number)
             return {
                 ...state,
-                numberCart:state.numberCart+1,
+                numberCart:number,
             }
         case INCREASE_QUANTITY:
-            console.log('reducer:'+state.Carts[action.payload].quantity)
+            number= state.numberCart+1;
+            localStorage.setItem("total-cart-amount",number)
             return{
                 ...state,
-                numberCart: state.numberCart+1,
+                numberCart: number,
                 Carts:{
                     ...state.Carts,
                     [action.payload]:{
@@ -132,26 +136,42 @@ const cartReducer=(state=initProductCart, action)=>{
                 }
             }
         case DECREASE_QUANTITY:
+            
             let quantity= state.Carts[action.payload].quantity;
             if(quantity>1){
+                let numberItem=quantity - 1;
+                number=state.numberCart-1;
+                localStorage.setItem("total-cart-amount",number);
                 return{
                     ...state,
-                    numberCart: state.numberCart - 1,
+                    numberCart: number,
                     Carts: {
                         ...state.Carts,
                         [action.payload]: {
                              ...state.Carts[action.payload],
-                             quantity: state.Carts[action.payload].quantity - 1,
+                             quantity: numberItem,
                         },
                     },
                 }
             }
+            else if(quantity===1){
+                number=state.numberCart-1;
+                localStorage.setItem("total-cart-amount",number);
+                return{
+                    ...state,
+                    numberCart: number,
+                    Carts: state.Carts.filter(item=> item.id!==state.Carts[action.payload].id)
+                }
+                
+            }
             return state; // if not changed return unmutated state
         case DELETE_CART:
             let _quantity= state.Carts[action.payload].quantity;
+            number=state.numberCart-_quantity;
+            localStorage.setItem("total-cart-amount",number);
             return{
                 ...state,
-                numberCart:state.numberCart - _quantity,
+                numberCart:number,
                 Carts: state.Carts.filter(item=>{
                     return item.id!==state.Carts[action.payload].id
                 })

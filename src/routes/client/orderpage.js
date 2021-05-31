@@ -12,12 +12,20 @@ const Orderpage = ({ carts,account, IncreaseQuantity, DecreaseQuantity, DeleteCa
     function TotalPrice(price, tonggia) {
         return Number(price * tonggia).toLocaleString('en-US');
     }
+    let url="";
+    const handleLink=()=>{
+        if (localStorage.getItem("accessToken")===true && localStorage.getItem("total-cart-amount")!==0 ){
+            return url="/product-finish" 
+        } 
+        if( localStorage.getItem("accessToken")===true && localStorage.getItem("total-cart-amount")==0){
+            return url="/menu"
+        }
+        else{
+            return url="/signin"
+        }
+
+    }
     { console.log(ListCart) }
-    var url="/order-cart";
-    useEffect(()=>{
-        localStorage.getItem("accessToken")==true?
-        url="/product-finish" : url='/order-cart'
-    })
     return (
         <div className="row">
             <div className="col-md-12">
@@ -55,25 +63,9 @@ const Orderpage = ({ carts,account, IncreaseQuantity, DecreaseQuantity, DeleteCa
                             })
 
                         }
-                        <tr>
-                            {/* <td colSpan="5">Total Carts</td> */}
-                            {/* <td><button className="btn btn-primary"
-                                style={{
-                                    backgroundColor: "#e31837",
-                                    color: "white",
-                                    width: "100%",
-                                    padding: "15p",
-                                    margin: "10 2",
-                                    border: "none",
-                                    cursor: "pointer",
-                                    fontSize: "1em",
-                                }}> {TotalCart==0? 0 : "CHECKOUT    "+Number(TotalCart).toLocaleString('en-US')} $
-                                </button>
-                            </td> */}
-                        </tr>
                     </tbody>
                 </table>
-                <Link to={url}
+                <Link to={'/product-finish'} onClick={handleLink}
                         style={{
                             color: "white",
                             cursor: "pointer",
@@ -103,7 +95,8 @@ const Orderpage = ({ carts,account, IncreaseQuantity, DecreaseQuantity, DeleteCa
 const mapStateToProps = state => {
     return {
         carts: state.carts.Carts,
-        account: state.accounts
+        account: state.accounts,
+        numberCart: state.numberCart
     }
 }
 export default connect(mapStateToProps, { IncreaseQuantity, DecreaseQuantity, DeleteCart })(Orderpage)

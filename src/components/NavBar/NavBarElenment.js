@@ -1,10 +1,12 @@
 import styled from 'styled-components'
 import { NavLink as Link } from 'react-router-dom'
-import { FaStream, FaUserCircle, FaShoppingBasket, FaDelicious, FaTools} from 'react-icons/fa'
+import { FaStream, FaUserCircle, FaShoppingBasket, FaDelicious, FaTools,FaSignOutAlt} from 'react-icons/fa'
 export const Nav = styled.nav`
+    width: 100vw;
+    height: 100px;
     background: transparent;
     background-color: black;
-    position: sticky;
+    /* position: sticky; */
     top: 0;
     /* height: 80px; */
     display: flex;
@@ -42,7 +44,7 @@ export const NavMenuList = styled.ul`
     color: #000;
     position: sticky;
     .nav-logo{
-        font-size: 1.8rem;
+        font-size: 1.5rem;
     }
 `
 export const NavMenuListItem= styled.li`
@@ -51,7 +53,7 @@ export const NavMenuListItem= styled.li`
 `
 export const NavMenuListA= styled.a`
     :hover{
-        background-color: #111;
+        background-color: tomato;
     }
 `
 
@@ -81,6 +83,7 @@ export const NavLinkList = styled(Link)`
         font-weight: bold;
         color: tomato
     }
+    
 `
 
 export const NavIcon = styled.div`
@@ -111,20 +114,23 @@ export const Logo = styled(FaDelicious)`
 `
 
 export const Account = styled(FaUserCircle)`    
-    font-size: 2rem;
+    font-size: 1.5rem;
     /* transform: translate(-70%,-100%) */
 `
 
 export const Order = styled(FaShoppingBasket)`
-    font-size: 2rem;
+    font-size: 1.5rem;
     /* transform: translate(-600%,-100%) */
 `
 
 export const Bars = styled(FaStream)`
-    font-size: 2rem;
+    font-size: 1.5rem;
     /* transform: translate(-1160%,-100%) */
 `
 export const Management = styled(FaTools)`
-    font-size: 2rem;
+    font-size: 1.5rem;
     /* transform: translate(-1160%,-100%) */
+`
+export const SignOut = styled(FaSignOutAlt)`
+    font-size: 1.5rem;
 `

@@ -1,5 +1,5 @@
 import {Promise} from 'es6-promise'
-import {LOGIN_PENDING,LOGIN_SUCCES,LOGIN_ERROR,LOGIN_ADMIN,setLoginPending,sendLoginSuccess,setLoginError,setIsAdmin} from '../actions/LoginAction'
+import {LOGIN_PENDING,LOGIN_SUCCES,LOGIN_ERROR,LOGIN_ADMIN} from '../actions/LoginAction'
 const initAcountStates={
     isLoginPending:false,
     isLoginSuccess: false,
@@ -8,6 +8,7 @@ const initAcountStates={
     userName:'',
     password:'',
     name:'',
+    user:{},
 }
 // export const login=(username,password)=>{
 //     return dispatch=>{
@@ -52,14 +53,17 @@ const AccountReducer=(state=initAcountStates, action)=>{
             console.log(action.users);
 
             account=users.find(account=>account.username===user.username && account.password===user.password);
-            console.log("reducer "+state.isLoginSuccess);
+            state.user=account;
+            console.log("id:"+state.user.id)
             if(typeof account!=='undefined'){
                 if(account.role==="admin") {
                     isAdmin=true
                     console.log(account.role);
                 }
+                state.isLoginSuccess=true;
+                console.log("reducer "+state.isLoginSuccess);
                 return{
-                    isLoginSuccess: true,
+                    ...state,
                     name: account.username,
                     isAdmin: isAdmin
                 }

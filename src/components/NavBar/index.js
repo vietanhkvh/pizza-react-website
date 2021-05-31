@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Bars, Nav, Account, Order, Logo, NavMenuList, NavMenuListItem, NavLinkList, Management } from './NavBarElenment'
+import {NavDropdown} from 'react-bootstrap'
+import { Bars, Nav, Account, Order, Logo,SignOut, NavMenuList, NavMenuListItem, NavLinkList, Management } from './NavBarElenment'
 const NavBar = (props) => {
     return (
         <>
@@ -49,6 +50,11 @@ const NavBar = (props) => {
                             <NavMenuListItem>
                                 <NavLinkList to='/user' style={{ textDecoration: "none" }}><Account />
                                     {props.account.name}
+                                </NavLinkList>
+                            </NavMenuListItem>
+                            <NavMenuListItem>
+                                <NavLinkList to='/' style={{ textDecoration: "none" }}><SignOut/>
+                                    Sign out
                                 </NavLinkList>
                             </NavMenuListItem>
                         </>)
