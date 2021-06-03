@@ -79,16 +79,16 @@ const CheckOut = (props) => {
                                         <tr>
                                             <td>
                                                 <p>Name*</p>
-                                                <input type="text" id="name" className="form-control" placeholder="Your name" value={props.account.user.name} required />
+                                                <input type="text" id="name" className="form-control" placeholder="Your name" defaultValue={props.account.user.name} required />
                                                 <br />
                                                 <p>Email</p>
-                                                <input type="email" id="email" className="form-control" placeholder="Email" value={props.account.user.email} />
+                                                <input type="email" id="email" className="form-control" placeholder="Email" defaultValue={props.account.user.email} />
                                                 <br />
                                                 <p>Phone*</p>
-                                                <input type="text" id="phone" className="form-control" placeholder="Phone" value={props.account.user.phone} required /></td>
+                                                <input type="text" id="phone" className="form-control" placeholder="Phone" defaultValuealue={props.account.user.phone} required /></td>
                                             <td>
                                                 <p>Address*</p>
-                                                <input type="text" id="address" className="form-control" placeholder="Address" value={props.account.user.address} required />
+                                                <input type="text" id="address" className="form-control" placeholder="Address" defaultValue={props.account.user.address} required />
                                                 <br />
                                                 <p>Note</p>
                                                 <input type="text" id="note" className="form-control" placeholder="Note" />

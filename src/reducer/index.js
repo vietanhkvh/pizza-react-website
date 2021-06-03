@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux'
 import AccountReducer from './AccountReducer'
 import {ADD_CART, DELETE_CART, INCREASE_QUANTITY, DECREASE_QUANTITY, GET_NUMBER_CART, GET_ALL_PRODUCT} from '../actions'
-
+import {IS_PROFILE} from '../actions/SideAction'
 import product1 from '../images/product-1.jpg'
 import product2 from '../images/product-2.jpg'
 import product3 from '../images/product-3.jpg'
@@ -182,8 +182,24 @@ const cartReducer=(state=initProductCart, action)=>{
             };
     }
 }
+const initSideReducer={
+    isProfile: true
+}
+const SideUserReducer=(state=initSideReducer,action)=>{
+    switch(action.type){
+        case IS_PROFILE:
+            return {
+                isProfile: action.isProfile
+            }
+        default:
+            return{
+                ...state
+            }
+    };
+}
 
 export default combineReducers({
     carts: cartReducer ,
     accounts: AccountReducer,
+    sideUser: SideUserReducer
 })

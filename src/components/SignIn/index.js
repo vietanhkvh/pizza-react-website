@@ -23,6 +23,7 @@ const SignIn = props => {
         if(props.account.isLoginSuccess===true){
             history.replace('/');
             localStorage.setItem("accessToken",props.account.isLoginSuccess)
+            localStorage.setItem("user_id",props.account.user.id)
             createNotification('success')
             alert("Login success!")
         }
@@ -30,6 +31,7 @@ const SignIn = props => {
             createNotification('error')
             alert("Incorect username or password!")
             localStorage.setItem("accessToken",false)
+            localStorage.setItem("user_id",props.account.user.id)
             e.preventDefault();
 
         }

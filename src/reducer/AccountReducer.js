@@ -1,5 +1,5 @@
 import {Promise} from 'es6-promise'
-import {LOGIN_PENDING,LOGIN_SUCCES,LOGIN_ERROR,LOGIN_ADMIN} from '../actions/LoginAction'
+import {LOGIN_PENDING,LOGIN_SUCCES,LOGIN_ERROR,LOGIN_ADMIN,LOG_OUT} from '../actions/LoginAction'
 const initAcountStates={
     isLoginPending:false,
     isLoginSuccess: false,
@@ -46,6 +46,7 @@ const AccountReducer=(state=initAcountStates, action)=>{
                 isLoginPending:action.isLoginPending
             }
         case LOGIN_SUCCES:
+            console.log("LOGIN_SUCCES")
             let user,users,account={},isAdmin=false;
             user = action.user;
             users = action.users;
@@ -70,6 +71,20 @@ const AccountReducer=(state=initAcountStates, action)=>{
             }
             return{
                 ...state
+            }
+        case LOG_OUT:
+            console.log("LOG_OUT")
+            localStorage.setItem("user_id",null)
+            localStorage.setItem("accessToken",false)
+            localStorage.setItem("total-cart-amount",0)          
+            return{
+                isLoginPending: action.isLogout,
+                isLoginSuccess: action.isLogou,
+                isAdmin: action.isLogou,
+                userName:'',
+                password:'',
+                name:'',
+                user:{},
             }
         case LOGIN_ERROR:
             return{

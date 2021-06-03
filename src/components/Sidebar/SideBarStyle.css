@@ -22,9 +22,18 @@
     cursor: pointer;
 }
 .SideBarList .row-item:hover{
-    background-color: #ffc500;
+    background-color: goldenrod;
 }
-.SideBarList #icon{
+.SideBarList .row-item:active{
+    background-color: goldenrod;
+}
+.SideBarList .li-link{
+    text-decoration: none;
+    color: blanchedalmond;
+    display: flex;
+    flex: 60%;
+}
+.SideBarList .li-link #icon{
     flex: 40%;
     display: grid;
     place-items: center;

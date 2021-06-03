@@ -4,12 +4,12 @@ export const SideBarData = [
     {
         title: "Profile",
         icon: <FaUserCog/>,
-        link: '/profile'
+        link: "/user/id="+localStorage.getItem("user_id")+"/profile"
     },
     {
         title: "History",
         icon: <FaRegListAlt/>,
-        link: '/history'
+        link: "/user/id="+localStorage.getItem("user_id")+"/history"
     },
 ]
 

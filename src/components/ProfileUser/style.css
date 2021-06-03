@@ -1,0 +1,11 @@
+.table .button{
+    width: 100px;
+    margin: 5px;
+    background-color: #e31837;
+    color: white;
+    margin: 10 2;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    float: right;
+}

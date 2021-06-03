@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {NavDropdown} from 'react-bootstrap'
 import { Bars, Nav, Account, Order, Logo,SignOut, NavMenuList, NavMenuListItem, NavLinkList, Management } from './NavBarElenment'
+import {setLogout} from '../../actions/LoginAction'
 const NavBar = (props) => {
     return (
         <>
@@ -38,7 +38,7 @@ const NavBar = (props) => {
                     <NavMenuListItem><NavLinkList className='nav-logo' to='' style={{ textDecoration: "none" }}><Logo />PizzaDelicious</NavLinkList></NavMenuListItem>
                     <NavMenuListItem><NavLinkList className='nav-menu' to='/menu/pizzas' style={{ textDecoration: "none" }} activeStyle={{ fontWeight: "bold", color: "red" }}><Bars />Menu</NavLinkList></NavMenuListItem>
                     <NavMenuListItem><NavLinkList to='/order-cart' style={{ textDecoration: "none" }} activeStyle={{ fontWeight: "bold", color: "red" }}><Order />Order</NavLinkList></NavMenuListItem>
-                    {props.account.isLoginSuccess == true ?
+                    {props.account.isLoginSuccess ?
                         (<>
                             <NavMenuListItem>
                                 {props.account.isAdmin == true ?
@@ -48,12 +48,13 @@ const NavBar = (props) => {
                                     : null}
                             </NavMenuListItem>
                             <NavMenuListItem>
-                                <NavLinkList to='/user' style={{ textDecoration: "none" }}><Account />
+                                <NavLinkList to={'/user/id='+localStorage.getItem("user_id")} style={{ textDecoration: "none" }}><Account />
                                     {props.account.name}
                                 </NavLinkList>
                             </NavMenuListItem>
                             <NavMenuListItem>
-                                <NavLinkList to='/' style={{ textDecoration: "none" }}><SignOut/>
+                                <NavLinkList to='/' style={{ textDecoration: "none" }} onClick={()=>props.setLogout()} onMouseDown={()=>{localStorage.setItem("user_id",null)}}>{console.log(props.account.isLoginSuccess)}
+                                    <SignOut/>
                                     Sign out
                                 </NavLinkList>
                             </NavMenuListItem>
@@ -78,4 +79,9 @@ const mapStateToProps = state => {
         account: state.accounts
     }
 }
-export default connect(mapStateToProps, null)(NavBar)
+const mapDispatchToProps= dispatch=>{
+    return {
+        setLogout: () => dispatch(setLogout(false))
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar)
