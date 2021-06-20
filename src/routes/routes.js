@@ -40,7 +40,7 @@ const routes = [
         main: () => <CheckOut/>
     },
     {
-        path: '/user/id='+localStorage.getItem("user_id"),
+        path: '/user/id=',
         exact: false,
         main: () => <UserPage/>
     },

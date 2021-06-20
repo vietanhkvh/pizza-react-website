@@ -41,14 +41,7 @@ const NavBar = (props) => {
                     {props.account.isLoginSuccess ?
                         (<>
                             <NavMenuListItem>
-                                {props.account.isAdmin == true ?
-                                    <NavLinkList to='/manage' style={{ textDecoration: "none" }}><Management />
-                                        Manage
-                                    </NavLinkList>
-                                    : null}
-                            </NavMenuListItem>
-                            <NavMenuListItem>
-                                <NavLinkList to={'/user/id='+localStorage.getItem("user_id")} style={{ textDecoration: "none" }}><Account />
+                                <NavLinkList to={'/user/id='+props.account.user.id} style={{ textDecoration: "none" }}><Account />
                                     {props.account.name}
                                 </NavLinkList>
                             </NavMenuListItem>

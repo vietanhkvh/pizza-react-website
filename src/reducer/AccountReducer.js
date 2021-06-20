@@ -74,13 +74,13 @@ const AccountReducer=(state=initAcountStates, action)=>{
             }
         case LOG_OUT:
             console.log("LOG_OUT")
-            localStorage.setItem("user_id",null)
-            localStorage.setItem("accessToken",false)
-            localStorage.setItem("total-cart-amount",0)          
+            localStorage.setItem("user_id",null);
+            localStorage.setItem("accessToken",false);
+            localStorage.setItem("total-cart-amount",0);         
             return{
-                isLoginPending: action.isLogout,
-                isLoginSuccess: action.isLogou,
-                isAdmin: action.isLogou,
+                isLoginPending: false,
+                isLoginSuccess: false,
+                isAdmin: false,
                 userName:'',
                 password:'',
                 name:'',

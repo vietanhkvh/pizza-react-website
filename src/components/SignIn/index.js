@@ -81,9 +81,7 @@ const SignIn = props => {
                 {props.account.isLoginPending == true ? <div>Please wait</div> : <div>False</div>}
                 {props.account.isLoginSuccess == true ? <div>Welcome back!</div> : <div>Not success</div>}
                 {props.account.loginError == null ? <div>No message</div> : <div>{props.loginError}</div>}
-            </Form>
-            <NavBarAdmin />
-            
+            </Form>           
         </>
     )
 }

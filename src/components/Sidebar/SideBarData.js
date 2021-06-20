@@ -1,5 +1,5 @@
 import React from 'react'
-import {FaUserCog,FaRegListAlt,FaSignOutAlt} from 'react-icons/fa'
+import {FaUserCog,FaRegListAlt,FaMoneyBill,FaPizzaSlice} from 'react-icons/fa'
 export const SideBarData = [
     {
         title: "Profile",
@@ -12,5 +12,14 @@ export const SideBarData = [
         link: "/user/id="+localStorage.getItem("user_id")+"/history"
     },
 ]
-
+export const SideBarDataAdmin = [
+    {
+        title: "Bills",
+        icon: <FaMoneyBill/>,
+    },
+    {
+        title: "Products",
+        icon: <FaPizzaSlice/>,
+    },
+]
 

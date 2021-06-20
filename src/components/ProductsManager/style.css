@@ -1,0 +1,12 @@
+.ant-tabs-nav-wrap{
+    background: gold;
+    display: flex;
+    justify-content: center;
+}
+.ant-tabs-tab{
+    font-size: 1.25em;
+}
+.ant-tabs{
+    font-size: 1.25em;
+     font-weight: 300;
+}
