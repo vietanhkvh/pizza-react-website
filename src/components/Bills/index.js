@@ -3,11 +3,11 @@ import axios from 'axios';
 import './style.css'
 import { FaRegCheckSquare, FaRegEdit } from "react-icons/fa"
 import { EditOutlined, CheckOutlined } from '@ant-design/icons';
-import { Button, Space, Table, Image, Badge } from 'antd';
+import { Button, Space, Table, Image, Badge, Steps } from 'antd';
 
 const Bills = () => {
     const [bills, setBills] = useState([]);
-    var billDetail= [];
+    var billDetail = [];
     useEffect(async () => {
         const url = "https://pizza-toryo.herokuapp.com/api/bill";
         const response = await fetch(url);
@@ -17,7 +17,7 @@ const Bills = () => {
 
     const handleCompleted =
         async (idBill) => {
-            let result = await fetch(`https://pizza-toryo.herokuapp.com/api/bill/${idBill}?note=completed`, {
+            let result = await fetch(`https://pizza-toryo.herokuapp.com/api/bill/${idBill}?note=delivering`, {
                 method: "PUT",
                 body: null,
                 headers: {
@@ -40,6 +40,15 @@ const Bills = () => {
 
             console.log("handleComplete at: " + idBill)
         }
+
+    const { Step } = Steps;
+    const currentStep=(item)=>{
+        if(item.note==="waiting"){
+            return 0
+        }
+        else if( item.note==="delivering") return 1
+        else return 2
+    }
     const columns = [
         { title: 'ID', dataIndex: 'id', key: 'id' },
         { title: 'Date', dataIndex: 'date', key: 'date' },
@@ -49,35 +58,30 @@ const Bills = () => {
         { title: 'Phone number', dataIndex: 'phoneNumber', key: 'phoneNumber', render: (id, raw) => { if (!raw.user) { return '---' } return raw.user.phone } },
         {
             title: 'Status', dataIndex: 'note', key: 'note',
-            render: (id, raw) => raw.note === "completed" ?
-                <span><Badge status="success" />{raw.note}</span> : <span><Badge color="yellow" status="processing" />{raw.note}</span>
+            render: (id, raw) =>
+                // raw.note === "success" ?
+                //     <span><Badge status="success" />{raw.note}</span> :
+
+
+                //     <span><Badge color="yellow" status="processing" />{raw.note}</span>
+                <Steps progressDot size="small" current={currentStep(raw)} direction="vertical">
+                    <Step title="Waiting" />
+                    <Step title="Delivering" style={{color:"yellow"}} />
+                    <Step title="Success" />
+                </Steps>
         },
         {
-            title:'Action',
+            title: 'Action',
             key: 'operation', render: (id, raw) =>
-                raw.note === "created" ?
+                raw.note === "waiting" ?
                     <Space>
                         <Button type="primary" icon={<CheckOutlined />} style={{ backgroundColor: "darkgreen" }} shape="round" onClick={() => handleCompleted(raw.id)}>
-                        </Button>
-                        <Button type="primary" icon={<EditOutlined />} style={{ backgroundColor: "goldenrod" }} shape="round">
                         </Button>
                     </Space>
                     : null
         },
     ];
-    // const getBillDetail=async () =>{
-    //     bills.forEach(bill => {
-    //         fetch(`https://pizza-toryo.herokuapp.com/api/bill_detail/bill/${bill.id}`)
-    //         .then(res=>res.json())
-    //         .then(
-    //             (result)=>{
-    //                 for(let item of result){
-    //                     billDetail.push(item)
-    //                 }
-    //             }
-    //         )   
-    //     });
-    // }
+
     return (
         <Table
             columns={columns}

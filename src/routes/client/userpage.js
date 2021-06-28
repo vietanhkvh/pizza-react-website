@@ -7,6 +7,7 @@ import Profile from '../../components/ProfileUser'
 import Sidebar from '../../components/Sidebar'
 import Bills from '../../components/Bills'
 import Products from '../../components/ProductsManager'
+import Account from '../manager/acountpage'
 const UserPage = (props) => {
         let id = props.account.user.id
         return (
@@ -30,6 +31,7 @@ const UserPage = (props) => {
                                         <Route path={"/user/id=" + id + "/History"} component={History} />
                                         <Route path={"/user/id=" + id + "/Bills"} component={Bills} />
                                         <Route path={"/user/id=" + id + "/Products"} component={Products} />
+                                        <Route path={"/user/id=" + id + "/Accounts"} component={Account}/>
                                 </td>
                         </table>
                 </Router>

@@ -84,7 +84,9 @@ const Profile = (props) => {
         phoneRef.current.value = user.phone
         addressRef.current.value = user.address
         passwordRef.current.value = user.password
-        rePasswordRef.current.value = rePassword
+        if(isInChangePassword){
+            rePasswordRef.current.value = rePassword
+        }
         changeEditMode()
         changeEditPassword(false)
     }

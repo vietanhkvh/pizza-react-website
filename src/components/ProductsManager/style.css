@@ -3,10 +3,6 @@
     display: flex;
     justify-content: center;
 }
-.ant-tabs-tab{
+.tab-name{
     font-size: 1.25em;
-}
-.ant-tabs{
-    font-size: 1.25em;
-     font-weight: 300;
 }
