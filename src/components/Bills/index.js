@@ -16,8 +16,12 @@ const Bills = () => {
     }, [])
 
     const handleCompleted =
-        async (idBill) => {
-            let result = await fetch(`https://pizza-toryo.herokuapp.com/api/bill/${idBill}?note=delivering`, {
+        async (bill) => {
+            let delivering = "delivering";
+            let waiting = "waiting";
+            let result;
+
+            result = await fetch(`https://pizza-toryo.herokuapp.com/api/bill/${bill.id}?note=${delivering}`, {
                 method: "PUT",
                 body: null,
                 headers: {
@@ -26,7 +30,7 @@ const Bills = () => {
                 }
             })
             result = await result.json();
-            console.log("result: " + result.data);
+
             if (result.data != null) {
                 alert("Change completed!")
                 const url = "https://pizza-toryo.herokuapp.com/api/bill";
@@ -38,16 +42,14 @@ const Bills = () => {
                 alert("Can't change!")
             }
 
-            console.log("handleComplete at: " + idBill)
+            console.log("handleComplete at: " + bill.id)
         }
 
     const { Step } = Steps;
-    const currentStep=(item)=>{
-        if(item.note==="waiting"){
-            return 0
-        }
-        else if( item.note==="delivering") return 1
-        else return 2
+    const currentStep = (item) => {
+        if (item.note === "created") return 1
+        else if (item.note === "delivering") return 2
+        else return 3
     }
     const columns = [
         { title: 'ID', dataIndex: 'id', key: 'id' },
@@ -65,20 +67,21 @@ const Bills = () => {
 
                 //     <span><Badge color="yellow" status="processing" />{raw.note}</span>
                 <Steps progressDot size="small" current={currentStep(raw)} direction="vertical">
+                    <Step title="Created" />
                     <Step title="Waiting" />
-                    <Step title="Delivering" style={{color:"yellow"}} />
+                    <Step title="Delivering" />
                     <Step title="Success" />
                 </Steps>
         },
         {
             title: 'Action',
             key: 'operation', render: (id, raw) =>
-                raw.note === "waiting" ?
+                raw.note === "created" ?
                     <Space>
-                        <Button type="primary" icon={<CheckOutlined />} style={{ backgroundColor: "darkgreen" }} shape="round" onClick={() => handleCompleted(raw.id)}>
+                        <Button type="primary" icon={<CheckOutlined />} style={{ backgroundColor: "darkgreen" }} shape="round" onClick={() => handleCompleted(raw)}>
                         </Button>
                     </Space>
-                    : null
+                    : <p>No action now</p>
         },
     ];
 

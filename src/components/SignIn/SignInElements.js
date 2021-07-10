@@ -3,7 +3,7 @@ import { NavLink as Link } from 'react-router-dom'
 export const Form= styled.form`
     font-family:'Kanit', sans-serif;
     background-color: #000;
-    background-image: "../../images/product-2.jpg";
+    background-image: url("/../images/product-2.jpg");
     margin: 2em 20em;
     border: 3px solid #f1f1f1;
     .imgcontainer{

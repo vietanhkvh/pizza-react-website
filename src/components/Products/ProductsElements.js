@@ -30,11 +30,13 @@ export const ProductHeading= styled.h1`
     font-size: clamp(2rem, 2.5vw, 3rem);
     text-align: center;
     margin-bottom: 5rem;
+    color: white;
 `
 
 export const ProductTitle=styled.h2`
     font-weight: 400;
     font-weight: 1.5rem;
+    color: white;
 `
 export const ProductInfo=styled.div`
     display: flex;
