@@ -124,6 +124,7 @@ const cartReducer=(state=initProductCart, action)=>{
         case INCREASE_QUANTITY:
             number= state.numberCart+1;
             localStorage.setItem("total-cart-amount",number)
+            console.log(localStorage.getItem("total-cart-amount"))
             return{
                 ...state,
                 numberCart: number,
@@ -136,8 +137,8 @@ const cartReducer=(state=initProductCart, action)=>{
                 }
             }
         case DECREASE_QUANTITY:
-            
             let quantity= state.Carts[action.payload].quantity;
+            console.log(localStorage.getItem("total-cart-amount"))
             if(quantity>1){
                 let numberItem=quantity - 1;
                 number=state.numberCart-1;

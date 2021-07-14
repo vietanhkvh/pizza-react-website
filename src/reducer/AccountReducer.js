@@ -66,7 +66,8 @@ const AccountReducer=(state=initAcountStates, action)=>{
                 return{
                     ...state,
                     name: account.username,
-                    isAdmin: isAdmin
+                    isAdmin: isAdmin,
+                    isLoginSuccess: true
                 }
             }
             return{

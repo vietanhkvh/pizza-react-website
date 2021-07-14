@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { IncreaseQuantity, DecreaseQuantity, DeleteCart } from '../../actions';
-const Orderpage = ({ carts,account, IncreaseQuantity, DecreaseQuantity, DeleteCart }) => {
+const Orderpage = ({ carts, account, numberCart, IncreaseQuantity, DecreaseQuantity, DeleteCart }) => {
     let ListCart = [];
     let TotalCart = 0;
     Object.keys(carts).forEach(function (item) {
@@ -12,20 +12,18 @@ const Orderpage = ({ carts,account, IncreaseQuantity, DecreaseQuantity, DeleteCa
     function TotalPrice(price, tonggia) {
         return Number(price * tonggia).toLocaleString('en-US');
     }
-    let url="";
-    const handleLink=()=>{
-        if (localStorage.getItem("accessToken")===true && localStorage.getItem("total-cart-amount")!==0 ){
-            return url="/product-finish" 
-        } 
-        if( localStorage.getItem("accessToken")===true && localStorage.getItem("total-cart-amount")==0){
-            return url="/menu"
+    const getUrlCheckout = () =>{
+        const token =  account.isLoginSuccess;
+        const totalCart =numberCart;
+        console.log(totalCart)
+        if(!token){
+            return '/singin';
         }
-        else{
-            return url="/signin"
+        else if(token&&totalCart > 0){
+            return '/product-finish';
         }
-
+        return 'menu/pizzas';
     }
-    { console.log(ListCart) }
     return (
         <div className="row">
             <div className="col-md-12">
@@ -65,30 +63,30 @@ const Orderpage = ({ carts,account, IncreaseQuantity, DecreaseQuantity, DeleteCa
                         }
                     </tbody>
                 </table>
-                <Link to={'/product-finish'} onClick={handleLink}
-                        style={{
-                            color: "white",
-                            cursor: "pointer",
-                            textDecoration: "none"
-                        }}>
-                <button className="btn btn-primary"
+                <Link to={getUrlCheckout}
                     style={{
-                        backgroundColor: "#e31837",
                         color: "white",
-                        width: "30%",
-                        height: "3.5em",
-                        padding: "15p",
-                        margin: "10 2",
-                        border: "none",
                         cursor: "pointer",
-                        fontSize: "1em",
-                        float: 'right'
-                    }}> {TotalCart == 0 ? 0 : ("CHECKOUT " + Number(TotalCart).toLocaleString('en-US'))
-                    }$
-                </button>
+                        textDecoration: "none"
+                    }}>
+                    <button className="btn btn-primary"
+                        style={{
+                            backgroundColor: "#e31837",
+                            color: "white",
+                            width: "30%",
+                            height: "3.5em",
+                            padding: "15p",
+                            margin: "10 2",
+                            border: "none",
+                            cursor: "pointer",
+                            fontSize: "1em",
+                            float: 'right'
+                        }}> {TotalCart == 0 ? 0 : ("CHECKOUT " + Number(TotalCart).toLocaleString('en-US'))
+                        }$
+                    </button>
                 </Link>
             </div>
-        </div>
+        </div >
     )
 
 }
@@ -96,7 +94,7 @@ const mapStateToProps = state => {
     return {
         carts: state.carts.Carts,
         account: state.accounts,
-        numberCart: state.numberCart
+        numberCart: state.carts.numberCart
     }
 }
 export default connect(mapStateToProps, { IncreaseQuantity, DecreaseQuantity, DeleteCart })(Orderpage)
