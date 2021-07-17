@@ -33,7 +33,7 @@ const CheckOut = (props) => {
             user_id: user.id,
             date: today,
             prices: TotalCart,
-            note: "created"
+            note: "waiting"
         }
         let resultB = await fetch(`https://pizza-toryo.herokuapp.com/api/bill`, {
             method: 'POST',

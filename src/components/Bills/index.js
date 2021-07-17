@@ -44,12 +44,11 @@ const Bills = () => {
 
             console.log("handleComplete at: " + bill.id)
         }
-
     const { Step } = Steps;
     const currentStep = (item) => {
-        if (item.note === "created") return 1
-        else if (item.note === "delivering") return 2
-        else return 3
+        if (item.note === "waiting") return 0
+        else if (item.note === "delivering") return 1
+        else return 2
     }
     const columns = [
         { title: 'ID', dataIndex: 'id', key: 'id' },
@@ -67,7 +66,6 @@ const Bills = () => {
 
                 //     <span><Badge color="yellow" status="processing" />{raw.note}</span>
                 <Steps progressDot size="small" current={currentStep(raw)} direction="vertical">
-                    <Step title="Created" />
                     <Step title="Waiting" />
                     <Step title="Delivering" />
                     <Step title="Success" />
@@ -76,7 +74,7 @@ const Bills = () => {
         {
             title: 'Action',
             key: 'operation', render: (id, raw) =>
-                raw.note === "created" ?
+                raw.note === "waiting" ?
                     <Space>
                         <Button type="primary" icon={<CheckOutlined />} style={{ backgroundColor: "darkgreen" }} shape="round" onClick={() => handleCompleted(raw)}>
                         </Button>
@@ -86,12 +84,15 @@ const Bills = () => {
     ];
 
     return (
+        <>
+       
         <Table
             columns={columns}
             dataSource={bills}
             pagination={{ pageSize: 7 }}
             scroll={{ y: 400 }}
         />
+        </>
     )
 
 }

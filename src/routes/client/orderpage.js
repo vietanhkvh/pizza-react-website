@@ -17,7 +17,7 @@ const Orderpage = ({ carts, account, numberCart, IncreaseQuantity, DecreaseQuant
         const totalCart =numberCart;
         console.log(totalCart)
         if(!token){
-            return '/singin';
+            return '/signin';
         }
         else if(token&&totalCart > 0){
             return '/product-finish';

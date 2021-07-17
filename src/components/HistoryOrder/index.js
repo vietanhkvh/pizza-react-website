@@ -1,63 +1,120 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
-class History extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            billList: [],
-            user_id: null
+import { Button, Space, Table, Image, Badge, Steps } from 'antd';
+import { StopOutlined } from '@ant-design/icons';
+const History = (props) => {
+    const [bills, setBills] = useState([]);
+    const [userId, setuserID] = useState(props.account.user.id);
+    useEffect(async () => {
+        const url = "https://pizza-toryo.herokuapp.com/api/bill/user/"+userId;
+        const response = await fetch(url);
+        const data = await response.json();
+        setBills(data.data)
+    }, [])
+    const handleCancel = async (bill) => {
+        let status = "canceled";
+        let result;
+
+        result = await fetch(`https://pizza-toryo.herokuapp.com/api/bill/${bill.id}?note=${status}`, {
+            method: "PUT",
+            body: null,
+            headers: {
+                "Content-Type": 'application/json',
+                "Accept": '*/*'
+            }
+        })
+        result = await result.json();
+
+        if (result.data != null) {
+            alert("Cancel completed!")
+            const url = "https://pizza-toryo.herokuapp.com/api/bill";
+            const response = await fetch(url);
+            const data = await response.json();
+            setBills(data.data)
         }
-    }
+        else {
+            alert("Can't cancel!")
+        }
 
-    componentDidMount() {
-        axios.get(`https://pizza-toryo.herokuapp.com/api/bill/user/` + localStorage.getItem("user_id"))
-            .then(res => {
-                const billList = res.data.data;
-                this.setState({ billList });
-                console.log(billList)
-            })
-            .catch(error => console.log(error));
     }
-    render() {
-        return (
-            <div className="row">
-                <div className="col-md-12">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Total Price</th>
-                                {/* <th>Quantity</th> */}
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                this.state.billList.map((bill, key) => {
-                                    return (
-                                        <tr key={key}>
-
-                                            <td>{bill.date}</td>
-                                            <td>${bill.prices}</td>
-                                            <td>{bill.note}</td>
-                                            
-                                        </tr>
-                                    )
-                                })
-
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        )
+    const columns = [
+        { title: 'Date', dataIndex: 'date', key: 'date' },
+        { title: 'Payment($)', dataIndex: 'prices', key: 'prices' },
+        {
+            title: 'Status', dataIndex: 'note', key: 'note',
+        },
+        {
+            title: 'Action',
+            key: 'operation', render: (id, raw) =>
+                raw.note === "waiting" ?
+                    <Space>
+                        <Button type="primary" icon={<StopOutlined />} style={{ backgroundColor: "darkred" }} shape="round" onClick={() => handleCancel(raw)}>
+                        </Button>
+                    </Space>
+                    : <p>No action now</p>
+        },
+    ];
+    const handleRefresh = async () => {
+        const url = "https://pizza-toryo.herokuapp.com/api/bill";
+        const response = await fetch(url);
+        const data = await response.json();
+        this.setState({ billLists: data.data })
     }
+    return (
+        <>
+            {/* <Button
+                    onClick={() => handleRefresh()}
+                    style={{
+                        backgroundColor: "goldenrod",
+                        margin: 10,
+                    }}
+                >
+                    Refresh
+                </Button> */}
+            <Table
+                columns={columns}
+                dataSource={bills}
+                pagination={{ pageSize: 7 }}
+                scroll={{ y: 400 }}
+            />
+        </>
+        // <div className="row">
+        //     <div className="col-md-12">
+        //         <table className="table">
+        //             <thead>
+        //                 <tr>
+        //                     <th>Date</th>
+        //                     <th>Total Price</th>
+        //                     {/* <th>Quantity</th> */}
+        //                     <th>Status</th>
+        //                     <th></th>
+        //                 </tr>
+        //             </thead>
+        //             <tbody>
+        //                 {
+        //                     this.state.billList.map((bill, key) => {
+        //                         return (
+        //                             <tr key={key}>
+
+        //                                 <td>{bill.date}</td>
+        //                                 <td>${bill.prices}</td>
+        //                                 <td>{bill.note}</td>
+
+        //                             </tr>
+        //                         )
+        //                     })
+
+        //                 }
+        //             </tbody>
+        //         </table>
+        //     </div>
+        // </div>
+    )
 }
 const mapStateToProps = state => {
     return {
         account: state.accounts
     }
 }
-export default (History)
+export default connect(mapStateToProps)(History)

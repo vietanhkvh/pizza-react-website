@@ -38,12 +38,8 @@ const RegisterPage = () => {
                "Accept":'*/*'
            }
        })
-            // .then()(res => {
-            //     console.log(res.data.data);
-            // }).catch(err => console.log(err))
         result= await result.json;
         console.warn("result", result);
-        // localStorage.setItem("user-info", JSON.stringify(result.json));
         history.push('/');
 
     }
