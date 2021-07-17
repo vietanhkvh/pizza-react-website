@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Button, Space, Table, Image, Badge, Steps } from 'antd';
-import { StopOutlined } from '@ant-design/icons';
+import { StopOutlined, CheckOutlined } from '@ant-design/icons';
 const History = (props) => {
     const [bills, setBills] = useState([]);
     const [userId, setuserID] = useState(props.account.user.id);
     useEffect(async () => {
-        const url = "https://pizza-toryo.herokuapp.com/api/bill/user/"+userId;
+        const url = "https://pizza-toryo.herokuapp.com/api/bill/user/" + userId;
         const response = await fetch(url);
         const data = await response.json();
         setBills(data.data)
@@ -28,7 +28,7 @@ const History = (props) => {
 
         if (result.data != null) {
             alert("Cancel completed!")
-            const url = "https://pizza-toryo.herokuapp.com/api/bill";
+            const url = "https://pizza-toryo.herokuapp.com/api/bill/user/" + userId;
             const response = await fetch(url);
             const data = await response.json();
             setBills(data.data)
@@ -38,6 +38,34 @@ const History = (props) => {
         }
 
     }
+    const handleCompleted =
+        async (bill) => {
+            let success = "success";
+            let result;
+
+            result = await fetch(`https://pizza-toryo.herokuapp.com/api/bill/${bill.id}?note=${success}`, {
+                method: "PUT",
+                body: null,
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Accept": '*/*'
+                }
+            })
+            result = await result.json();
+
+            if (result.data != null) {
+                alert("Change completed!")
+                const url = "https://pizza-toryo.herokuapp.com/api/bill/user/" + userId;
+                const response = await fetch(url);
+                const data = await response.json();
+                setBills(data.data)
+            }
+            else {
+                alert("Can't change!")
+            }
+
+            console.log("handleComplete at: " + bill.id)
+        }
     const columns = [
         { title: 'Date', dataIndex: 'date', key: 'date' },
         { title: 'Payment($)', dataIndex: 'prices', key: 'prices' },
@@ -45,7 +73,7 @@ const History = (props) => {
             title: 'Status', dataIndex: 'note', key: 'note',
         },
         {
-            title: 'Action',
+            title: 'Cancel',
             key: 'operation', render: (id, raw) =>
                 raw.note === "waiting" ?
                     <Space>
@@ -54,24 +82,34 @@ const History = (props) => {
                     </Space>
                     : <p>No action now</p>
         },
+        {
+            title: 'Completed',
+            key: 'operation', render: (id, raw) =>
+                raw.note === "delivering" ?
+                    <Space>
+                        <Button type="primary" icon={<CheckOutlined />} style={{ backgroundColor: "darkgreen" }} shape="round" onClick={() => handleCompleted(raw)}>
+                        </Button>
+                    </Space>
+                    : <p>No action now</p>
+        },
     ];
     const handleRefresh = async () => {
-        const url = "https://pizza-toryo.herokuapp.com/api/bill";
+        const url = "https://pizza-toryo.herokuapp.com/api/bill/user/" + userId;
         const response = await fetch(url);
         const data = await response.json();
-        this.setState({ billLists: data.data })
+        setBills(data.data)
     }
     return (
         <>
-            {/* <Button
-                    onClick={() => handleRefresh()}
-                    style={{
-                        backgroundColor: "goldenrod",
-                        margin: 10,
-                    }}
-                >
-                    Refresh
-                </Button> */}
+            <Button
+                onClick={() => handleRefresh()}
+                style={{
+                    backgroundColor: "goldenrod",
+                    margin: 10,
+                }}
+            >
+                Refresh
+            </Button>
             <Table
                 columns={columns}
                 dataSource={bills}

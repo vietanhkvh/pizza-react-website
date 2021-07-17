@@ -82,10 +82,23 @@ const Bills = () => {
                     : <p>No action now</p>
         },
     ];
-
+    const handleRefresh = async () => {
+        const url = "https://pizza-toryo.herokuapp.com/api/bill";
+        const response = await fetch(url);
+        const data = await response.json();
+        setBills(data.data)
+    }
     return (
         <>
-       
+       <Button
+                onClick={() => handleRefresh()}
+                style={{
+                    backgroundColor: "goldenrod",
+                    margin: 10,
+                }}
+            >
+                Refresh
+            </Button>
         <Table
             columns={columns}
             dataSource={bills}
